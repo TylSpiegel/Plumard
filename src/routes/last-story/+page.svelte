@@ -1,4 +1,4 @@
-<script lang="ts">
+<script>
 
     /** @type {import('./$types').PageData} */
     export let data;

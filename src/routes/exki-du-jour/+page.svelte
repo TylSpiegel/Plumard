@@ -1,6 +1,7 @@
 
 
-<script lang="ts">
+<script>
+
     /** @type {import('./$types').PageData} */
 
     import {onMount} from "svelte";
