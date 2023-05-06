@@ -1,5 +1,5 @@
 import prisma from "/src/lib/prisma";
-import type { PageServerLoad } from '/src/lib/types';
+/** @type {import('./$types').PageLoad} */
 import {fail, redirect} from "@sveltejs/kit";
 
 
@@ -18,4 +18,4 @@ export const load = (async ()  => {
     return {
         verses
     };
-}) satisfies PageServerLoad;
+});
