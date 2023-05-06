@@ -9,4 +9,4 @@ export const load = (async ()  => {
     return {
         poems : await prisma.dailyPoem.findMany()
     };
-}) satisfies PageServerLoad;
+});
