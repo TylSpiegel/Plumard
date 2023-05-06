@@ -1,0 +1,40 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model DailyPoem {
+
+    id  Int     @id @default(autoincrement())
+    title   String
+    theme   String
+    targetLength    Int
+    verses Verse[]
+
+}
+
+model Verse {
+
+  id    Int     @id @default(autoincrement())
+  author String
+  poem  DailyPoem   @relation(fields: [poemId], references: [id])
+  poemId Int
+  sentence  String?
+
+}
+
+model Session {
+    id      Int     @id @default(autoincrement())
+    token   String @unique
+    createdAt    DateTime    @default(now())
+    lastPing    DateTime     @default(now()) @updatedAt
+    waiting Boolean @default(true)
+    writing  Boolean @default(false)
+}
