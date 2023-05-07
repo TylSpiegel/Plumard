@@ -1,14 +1,27 @@
 import prisma from "/src/lib/prisma";
 /** @type {import('./$types').PageLoad} */
-import {fail, redirect} from "@sveltejs/kit";
 
 
 export const load = (async ()  => {
 
+    const poem = await prisma.DailyPoem.findFirst( {
+        where : {
+            finished : true
+        },
+        orderBy : {
+            id : 'desc'
+        }
+    })
+
+    if (!poem) {
+        return {
+            verses : [],
+        }
+    }
 
     const verses = await prisma.Verse.findMany( {
         where : {
-            poemId : 1
+            poemId : poem.id
         },
         orderBy : {
             id : 'asc'
@@ -16,6 +29,7 @@ export const load = (async ()  => {
     })
 
     return {
-        verses
+        verses,
+        poem
     };
 });

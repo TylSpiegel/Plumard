@@ -47,7 +47,7 @@
 
 </script>
 
-{#if $userWriting}
+{#if $userWriting && data.poem}
 <main class="container">
 
 <section class="section">
@@ -55,6 +55,17 @@
         La plume contributive
     </h1>
     <!-- PREVIOUS -->
+
+    <section class="section">
+        On a trouvé un poème pour vous:
+        <div class="block">
+            <p class="is-size-3">{data.poem.title}</p>
+        </div>
+        <div class="block">
+            <p>Et l'inspiration est : </p>
+            <span class="is-size-3">{data.poem.theme}</span>
+        </div>
+    </section>
 
     <div class="box">
     {#if data.verse}
@@ -67,7 +78,10 @@
 
     <form action="?/create" method="POST">
         <div class="block">
-        <input type="text" name="token" bind:value={data.session.token} hidden>
+            <input type="text" name="token" id="token" bind:value={data.session.token} hidden>
+        </div>
+        <div class="block">
+            <input type="input" name="poemId" id="poemId" bind:value={data.poem.id} hidden >
         </div>
 
         <div class="block">
@@ -100,7 +114,7 @@
 </section>
  </main>
 
-    {:else}
+    {:else if !$userWriting && data.poem}
 
 <div>
     <h1>File d'attente</h1>
@@ -112,5 +126,9 @@
     {/if}
 
 </div>
+
+{:else if !data.poem}
+
+    <p>Il n'y a pas de poeme</p>
 
 {/if}

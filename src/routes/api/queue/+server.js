@@ -11,7 +11,7 @@ export const POST = (async ({ request }) => {
             AND : [
                 { waiting : true  },
                 { lastPing : {
-                        lt: new Date(Date.now() - 1000 * 20)
+                        lt: new Date(Date.now() - 1000 * 6)
                     }
                 }
             ]
@@ -22,7 +22,7 @@ export const POST = (async ({ request }) => {
             AND : [
                 { writing : true  },
                 { lastPing : {
-                        lt: new Date(Date.now() - 1000 * 20)
+                        lt: new Date(Date.now() - 1000 * 6)
                     }
                 }
             ]

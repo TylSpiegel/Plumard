@@ -13,10 +13,12 @@ datasource db {
 model DailyPoem {
 
     id  Int     @id @default(autoincrement())
+    finished    Boolean @default(false)
     title   String
     theme   String
     targetLength    Int
     verses Verse[]
+    publish_date    DateTime @default(dbgenerated("now() + interval '1 day'")) @db.Date @unique
 
 }
 
@@ -27,6 +29,7 @@ model Verse {
   poem  DailyPoem   @relation(fields: [poemId], references: [id])
   poemId Int
   sentence  String?
+  createdAt DateTime @default(now())
 
 }
 

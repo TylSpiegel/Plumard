@@ -3,6 +3,7 @@ import prisma from "/src/lib/prisma";
 /** @type {import('./$types').Actions} */
 
 import {fail, redirect} from "@sveltejs/kit";
+import {getToday} from "/src/lib/utils.js";
 
 
 export const load = (async ()  => {
@@ -11,13 +12,11 @@ export const load = (async ()  => {
     // waiting && active = queue
     // active = current writer
 
-
     const session = await prisma.session.create({
         data: {
             token : Math.random().toString(20),
         }
     })
-
 
     const queue = await prisma.session.findMany({
         where : {
@@ -28,8 +27,18 @@ export const load = (async ()  => {
             createdAt : 'asc'
         }
     })
+    const poem = await prisma.DailyPoem.findFirst( {
+        where : {
+            publish_date : {
+                equals : getToday(),
+            }
+        }
+    })
 
     const lastVerse = await prisma.verse.findMany({
+        where : {
+            poemId : poem.id
+        },
         orderBy : {
             id : 'desc'
         },
@@ -39,7 +48,8 @@ export const load = (async ()  => {
     return {
         session : session,
         verse : lastVerse[0],
-        queue : queue.slice(0,5)
+        queue : queue.slice(0,5),
+        poem : poem
     };
 });
 
@@ -48,8 +58,8 @@ export const actions = {
         const data = await request.formData();
         let sentence = data.get("sentence")
         let author = data.get("author")
-        let token = data.get('token')
-        let poemId = 1
+        let token = data.get("token")
+        let poemId = data.get("poemId")
         let creationDate = new Date()
 
         if (!sentence) {
@@ -64,7 +74,7 @@ export const actions = {
             data: {
                 sentence,
                 author,
-                poemId,
+                poemId : parseInt(poemId),
             },
         });
 
