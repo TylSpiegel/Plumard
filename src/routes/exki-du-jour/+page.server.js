@@ -39,6 +39,7 @@ export const load = (async ()  => {
         where : {
             poemId : poem.id
         },
+        
         orderBy : {
             id : 'desc'
         },
@@ -54,7 +55,7 @@ export const load = (async ()  => {
 });
 
 export const actions = {
-    create: async ({ cookies, request }) => {
+    create: async ({ request }) => {
         const data = await request.formData();
         let sentence = data.get("sentence")
         let author = data.get("author")
