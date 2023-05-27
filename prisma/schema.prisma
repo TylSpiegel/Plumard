@@ -17,7 +17,14 @@ model DailyPoem {
     theme   String
     targetLength    Int
     verses Verse[]
-    publish_date    DateTime @default(dbgenerated("now() + interval '1 day'")) @db.Date @unique
+    publish_date    DateTime @default(dbgenerated("now() + interval '1 day'")) @db.Date
+}
+
+model PoemProposition {
+    id  Int     @id @default(autoincrement())
+    title   String
+    theme   String
+    targetLength    Int @default(14)
 }
 
 model Verse {

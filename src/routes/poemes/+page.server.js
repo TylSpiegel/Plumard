@@ -7,6 +7,10 @@ export const load = (async ()  => {
     const prisma = new PrismaClient()
 
     return {
-        poems : await prisma.dailyPoem.findMany()
+        poems : await prisma.dailyPoem.findMany( {
+            where : {
+                finished: true
+            }
+        })
     };
 });

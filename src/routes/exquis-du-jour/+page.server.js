@@ -27,13 +27,21 @@ export const load = (async ()  => {
             createdAt : 'asc'
         }
     })
+    
     const poem = await prisma.DailyPoem.findFirst( {
         where : {
             publish_date : {
                 equals : getToday(),
-            }
+            },
+            finished : false
         }
     })
+    
+    if (!poem) {
+        return {
+            poem : false
+        }
+    }
 
     const lastVerse = await prisma.verse.findMany({
         where : {
@@ -45,12 +53,21 @@ export const load = (async ()  => {
         },
         take : 1
     })
+    
+    const amountOfVerse = await prisma.verse.count( {
+        where : {
+            poemId : poem.id
+        }
+    })
+    
+    const amountOfVersesLeft = poem.targetLength - amountOfVerse
 
     return {
         session : session,
         verse : lastVerse[0],
         queue : queue.slice(0,5),
-        poem : poem
+        poem : poem,
+        amountOfVersesLeft : amountOfVersesLeft
     };
 });
 
@@ -78,17 +95,36 @@ export const actions = {
                 poemId : parseInt(poemId),
             },
         });
-
+    
+    
+        const poem = await prisma.DailyPoem.findUnique( {
+            where : {
+                id : parseInt(poemId)
+            }
+        })
+    
+        const amountOfVerses = await prisma.Verse.count( {
+            where : {
+                poemId : poem.id
+            }
+        })
+    
+        if (amountOfVerses >= poem.targetLength) {
+            await prisma.DailyPoem.update( {
+                where : {
+                    id : poem.id
+                },
+                data : {
+                    finished : true
+                }
+            })
+        }
+        
         await prisma.Session.delete({
             where : {
                 token : token
             },
         })
-
-        // Get token -> Inserted in form
-
-        // Set active status as False
-
 
         throw redirect(303, `/`)
 

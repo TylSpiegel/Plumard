@@ -16,9 +16,9 @@
     let queue ;
 
     onMount(async () => {
-        if (!$userWriting) {
+        if (!$userWriting && data.poem) {
 
-            const checkOnSession = setInterval(async () => {
+            setInterval(async () => {
 
                 const response = await fetch('/api/queue', {
                     method: 'POST',
@@ -32,7 +32,6 @@
                 queue = result.queue
                 queue = queue
 
-                console.log(result)
                 if (result.writing) {
                     data.session.writing = true
                     $userWriting = result.writing
@@ -73,6 +72,10 @@
         <p class="bold is-size-4">{data.verse.sentence}</p>
     {:else}
         <p>Vous avez l'honneur d'inaugurer le poème.</p>
+    {/if}
+	
+    {#if data.amountOfVersesLeft < 2}
+	    <p>Il reste {data.amountOfVersesLeft} vers à rajouter à ce poème. C'est le moment de conclure.</p>
     {/if}
     </div>
 

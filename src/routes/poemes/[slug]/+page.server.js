@@ -6,9 +6,7 @@ import { PrismaClient } from '@prisma/client'
 export const load = (async ( page )  => {
     const prisma = new PrismaClient()
     
-    console.log(page.params.slug)
-    
-    const poem = await prisma.DailyPoem.findFirst({
+    const poem = await prisma.DailyPoem.findUnique({
         where: {
             id: parseInt(page.params.slug),
         },

@@ -1,0 +1,18 @@
+UI :
+
+* ajouter des infos pour les utilisateurs qui ont les deux derniers vers
+*
+
+UX :
+
+* PreventDefault pour la touche ENTER dans l'écriture de vers
+
+
+Design :
+
+* Ajouter page pour faire des propositions de poèmes
+* Ajouter page pour programmer les poèmes
+
+* Ajouter système de création de session privée
+	* Génération d'un lien (id)
+	*
