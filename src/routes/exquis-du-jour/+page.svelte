@@ -136,9 +136,13 @@
 				
 				</form>
 			
-			{:else}
+			{:else if !data.poem || data.poem.finished === true}
+				<p class="is-size-5">Il n'y a pas de poème pour aujourd'hui.
+					<br> Ou bien le poème du jour a déjà été rédigé.
+				</p>
 			
-			<p class="is-size-5">Quelqu'un est en train d'écrire. La place devrait se libérer bientôt.</p>
+			{:else}
+				<p class="is-size-5">Quelqu'un est en train d'écrire. La place devrait se libérer bientôt.</p>
 			
 			{/if}
 
