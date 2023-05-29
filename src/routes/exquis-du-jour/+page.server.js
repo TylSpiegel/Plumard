@@ -5,12 +5,7 @@ import prisma from "/src/lib/prisma";
 import {fail, redirect} from "@sveltejs/kit";
 import {getToday} from "/src/lib/utils.js";
 
-
 export const load = (async ()  => {
-
-    // check if session avalaible
-    // waiting && active = queue
-    // active = current writer
 
     const session = await prisma.session.create({
         data: {
@@ -95,8 +90,7 @@ export const actions = {
                 poemId : parseInt(poemId),
             },
         });
-    
-    
+        
         const poem = await prisma.DailyPoem.findUnique( {
             where : {
                 id : parseInt(poemId)
@@ -124,8 +118,9 @@ export const actions = {
             where : {
                 token : token
             },
+            
         })
-
+        
         throw redirect(303, `/`)
 
     }

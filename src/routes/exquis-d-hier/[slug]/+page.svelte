@@ -1,24 +1,31 @@
 <script>
-    export let poem;
+	import Poem from '/src/components/Poem.svelte'
+	/** @type {import('./$types').PageData} */
+    export let data;
+	
 </script>
 
 
-<div class="card m-5">
-	<a href="/exquis-d-hier/{poem.id}">
-		<div class="p-5">
-			<div class="block">
-		    <h3 class="is-size-3">{poem.title}</h3>
-		    <p class="subtitle">{poem.theme}</p>
-			</div>
-		    <button class="button is-light">
-		        Lire
-		    </button>
-		</div>
+
+
+<section class="hero is-fullheight" id="container">
+	
+	<a href = "/" id="home">
+		<button class="button is-dark">
+			<span class="is-size-4">&#8678; &emsp;</span>   Retour
+		</button>
 	</a>
-</div>
+	
+	<div class="hero-body has-text-centered">
+		
+		<Poem {data}/>
+		
+	
+	</div>
+</section>
+
 
 <style>
-	
 	
 	* {
 		font-family: 'Nunito Sans', sans-serif;
@@ -55,6 +62,13 @@
 	
 	a {
 		font-weight: 600;
+	}
+	
+	
+	#home {
+		position : absolute;
+		bottom : 1.2em;
+		left : 1.2em;
 	}
 
 

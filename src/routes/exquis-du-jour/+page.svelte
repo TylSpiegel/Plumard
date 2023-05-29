@@ -4,22 +4,30 @@
 
     /** @type {import('./$types').PageData} */
 
-    import {onMount} from "svelte";
-    import {fail, redirect, json} from "@sveltejs/kit";
-    import { goto } from '$app/navigation'
+    import {onMount, onDestroy} from "svelte";
+	import {fade} from 'svelte/transition'
+    import {slide} from 'svelte/transition'
     import { userWriting } from '/src/lib/stores/store.js'
+    import {redirect} from "@sveltejs/kit";
 
     export let data;
     export let form;
+	
+	let sentence, author;
+	let interval;
 
-    let interval = 5000;
+    let intervalDuration = 5000;
     let queue ;
 
     onMount(async () => {
         if (!$userWriting && data.poem) {
-
-            setInterval(async () => {
-
+			
+            interval  = setInterval(async () => {
+				
+				if (!data.session.token) {
+					throw redirect(303, `/exquis-du-jour`)
+				}
+				
                 const response = await fetch('/api/queue', {
                     method: 'POST',
                     body: JSON.stringify(data.session),
@@ -36,102 +44,166 @@
                     data.session.writing = true
                     $userWriting = result.writing
                     $userWriting = $userWriting
-                    //set interval for writing
                 }
 
-            }, interval)
+            }, intervalDuration)
         }
         })
+
+    onDestroy(async () => {
+	    clearInterval(interval)
+		$userWriting = false
+    })
 
 
 </script>
 
-{#if $userWriting && data.poem}
-<main class="container">
 
-<section class="section">
-    <h1 class="is-size-2">
-        La plume contributive
-    </h1>
-    <!-- PREVIOUS -->
 
-    <section class="section">
-        On a trouvé un poème pour vous:
-        <div class="block">
-            <p class="is-size-3">{data.poem.title}</p>
-        </div>
-        <div class="block">
-            <p>Et l'inspiration est : </p>
-            <span class="is-size-3">{data.poem.theme}</span>
-        </div>
-    </section>
-
-    <div class="box">
-    {#if data.verse}
-        <p>Dernier vers</p>
-        <p class="bold is-size-4">{data.verse.sentence}</p>
-    {:else}
-        <p>Vous avez l'honneur d'inaugurer le poème.</p>
-    {/if}
+<section class="hero is-fullheight" id="container">
 	
-    {#if data.amountOfVersesLeft < 2}
-	    <p>Il reste {data.amountOfVersesLeft} vers à rajouter à ce poème. C'est le moment de conclure.</p>
-    {/if}
-    </div>
+	<a href = "/" id="home">
+		<button class="button is-dark">
+			<span class="is-size-4">&#8678; &emsp;</span>   Retour
+		</button>
+	</a>
+	
+	<div class="quote has-text-centered">
+	
+	{#if $userWriting && data.poem}
+	<div id="header" in:fade>
+		<p class="info">Poème du jour : </p>
+		<p class="title">{data.poem.title}</p>
+		<p class="info">Thème : </p>
+		<p class="title">
+			{data.poem.theme}
+		</p>
+	</div>
+		
+		{#if data.verse}
+				<p class="info">Vers précédent</p>
+				<p class="title">{data.verse.sentence}</p>
+			
+		{/if}
+		
+		{#if !data.verse}
+			<p class="info">Vous avez l'honneur d'inaugurer le poème.</p>
+		{/if}
+		
+		{#if data.amountOfVersesLeft < 3}
+			<p class="info">Il reste {data.amountOfVersesLeft} vers à rajouter à ce poème. C'est le moment de conclure.</p>
+		{/if}
+		
+	{/if}
+	</div>
+	
 
-    <form action="?/create" method="POST">
-        <div class="block">
-            <input type="text" name="token" id="token" bind:value={data.session.token} hidden>
-        </div>
-        <div class="block">
-            <input type="input" name="poemId" id="poemId" bind:value={data.poem.id} hidden >
-        </div>
+	<div class="hero-body has-text-centered">
+		
+		<div class="central-content has-text-centered" transition:slide>
+			
+			{#if $userWriting && data.poem}
+				
+				<form action="?/create" method="POST" in:fade>
 
-        <div class="block">
-        <label for="newEntry" class="label">
-            Votre coup de plume
-            <input id="newEntry" type="textare" name="sentence" class="textarea">
-        </label>
-        </div>
+					<input type="text" name="token" id="token" bind:value={data.session.token} hidden>
+					<input type="number" name="poemId" id="poemId" bind:value={data.poem.id} hidden>
+				
+					<div class="block">
+						<label for="sentence" class="label info">
+			
+							<textarea id="sentence" type="text" name="sentence" class="textarea" bind:value={sentence}
+							placeholder="Votre continuation"/>
+						</label>
+					</div>
+					
+					<!-- Yours -->
+					<div class="block">
+						<label for="author" class="label info">
+			
+							<input id="author" type="input" name="author" class="input" bind:value={author}
+							placeholder="Votre nom d'auteur">
+						</label>
+					</div>
+					<!-- Submit -->
+					<div>
+						{#if sentence && author}
+						<button type="submit" class="button is-dark is-large">
+							Valider le coup de plume
+						</button>
+						{/if}
+					</div>
+				
+				</form>
+			
+			{:else}
+			
+			<p class="is-size-5">Quelqu'un est en train d'écrire. La place devrait se libérer bientôt.</p>
+			
+			{/if}
 
-        <!-- Yours -->
-        <div class="block">
-        <label for="author" class="label">
-            Votre nom d'auteur
-            <input id="author" type="input" name="author" class="input">
-
-        </label>
-        </div>
-        <!-- Submit -->
-        <div>
-        <button type="submit" class="button is-primary">
-            Valider le coup de plume
-        </button>
-        </div>
-
-    </form>
-
-    {#if form?.success}
-        <div>SUCCESS</div>
-    {/if}
+		</div>
+	</div>
 </section>
- </main>
 
-    {:else if !$userWriting && data.poem}
 
-<div>
-    <h1>File d'attente</h1>
-
-    {#if queue}
-    <p>Il y a {queue} personnes dans la file</p>
-    {:else}
-    <p>On se renseigne pour savoir si le siège d'écriture est disponible.</p>
-    {/if}
-
-</div>
-
-{:else if !data.poem}
-
-    <p>Il n'y a pas de poeme</p>
-
-{/if}
+<style>
+	
+	* {
+		font-family: 'Nunito Sans', sans-serif;
+	}
+	
+	:root {
+		--shadowDark: #545B77;
+		--background: #E4E9F2;
+		--shadowLight: #545B77;
+		--lightGrey : #C9CCD5;
+		--focus : #FFFFFF;
+	}
+	
+	#container {
+		background: var(--background);
+	}
+	
+	.hero-body {
+		justify-content: center;
+	}
+	
+	.central-content {
+		border-radius: 25px;
+		padding: 1.5rem;
+		box-shadow: 8px 8px 20px var(--shadowDark), -8px -8px 20px var(--shadowLight);
+		min-width: 50%;
+	}
+	
+	input,textarea {
+		background: var(--background);
+		border-radius: 15px;
+		color : var(--shadowLight);
+		font-size : 1.5em;
+		resize:none;
+	}
+	
+	input:focus, textarea:focus {
+		background: #F4F5FA ;
+	}
+	
+	a {
+		font-weight: 600;
+	}
+	
+	#home {
+		position : absolute;
+		bottom : 1.2em;
+		left : 1.2em;
+	}
+	
+	.info {
+		margin-top : 15px;
+		font-size : 1.2em
+	}
+	
+	.title {
+		font-size : 1.7em;
+	}
+</style>

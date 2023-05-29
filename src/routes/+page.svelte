@@ -5,91 +5,70 @@
 	
 </script>
 
-<div class="container px-4 py-6 mx-auto">
-    <div class="bg-white text-center py-4 lg:px-4">
-        <div class="p-2 bg-indigo-500 items-center text-indigo-100 leading-none lg:rounded-full flex" role="alert">
-          <div>
-	          <span class="flex rounded-full bg-indigo-500 uppercase px-2 py-1 text-xs font-bold mr-3">
-            Plumard
-          </span>
-          </div>
-            </div>
-	    <div class="is-subtitle">
-		    Pour écrire des petits poèmes quotidiennement et collaborativement
-	    </div>
+<!--   ----------------------------------------------------    -->
+<!--   ----------------------------------------------------    -->
 
-    </div>
-</div>
 
-<div class = "section">
-	<div class = "container">
-		
-		<div class="box has-background-grey">
-			<p class="has-text-white is-size-4">
-			Le principe du jeu est le suivant : chaque participant écrit à tour de rôle une partie d'une phrase, dans l'ordre sujet–verbe–complément, sans savoir ce que le précédent a écrit. La première phrase qui résulta de ce processus et qui donna le nom à ce jeu fut :
-			« Le cadavre – exquis – boira – le vin – nouveau. »
-			</p>
+<section class="hero is-fullheight" id="container">
+	<div class="hero-body has-text-centered">
+		<div class="central-content has-text-centered">
+			
+			<h1 class="is-size-1">Exquis site</h1>
+			<p class="is-size-4">En poésie, le tout, c'est de garder la forme.</p>
 			<br>
-			<p class="has-text-white is-size-4">
-			Ici, nous fonctionnerons plutôt avec des vers. Encore qu'il ne soit pas interdit d'imaginer de le faire avec des syntagmes.
-			</p>
-		</div>
-		
-	</div>
-</div>
-
-<div class="hero is-link">
-	<div class="columns is-centered is-vcentered">
-		
-		<div class="column is-5 p-5">
-			<div class="block m-4">
-				<p class="has-text-white is-size-5">
-					En poésie, le tout, c'est de garder la forme. <br>
-					Alors, quoi de mieux qu'un cadavre exquis par jour comme exercice.
-				</p>
-			</div>
-		</div>
-		
-		<div class="column is-2">
-			<div class="w-full text-center py-4">
-				<button class="button">
-				<a href="/exquis-du-jour">
-					Exquis du jour
-				</a>
+			<div class="buttons is-centered">
+				<button class="button is-dark is-medium">
+					<a href="/exquis-du-jour">
+						Exquis du jour
+					</a>
 				</button>
-			</div>
-		</div>
-	</div>
-</div>
-
-
-
-<div class="hero is-link my-5">
-	<div class="columns is-centered is-vcentered">
-		
-		<div class="column is-5 p-5">
-			<div class="block m-4">
-				<p class="has-text-white is-size-5">
-				Allez donc découvrir la littérature des jours précédents.
-				</p>
-			</div>
-		</div>
-		
-		<div class="column is-2">
-			<div class="w-full text-center py-4">
-				<button class="button">
-					<a  href="/poemes">
-						Découvrir la littérature des jours précédents
+				
+				<button class="button is-dark is-medium">
+					<a href="/exquis-d-hier">
+						Exquis d'hier
 					</a>
 				</button>
 			</div>
 		</div>
 	</div>
-</div>
+</section>
 
 
-<div>
-	<h3>Poème d'hier</h3>
+<!--   ----------------------------------------------------    -->
+<!--   ----------------------------------------------------    -->
+
+
+<style>
 	
-	<Poem {data} />
-</div>
+	* {
+		font-family: 'Nunito Sans', sans-serif;
+	}
+	
+	:root {
+		--shadowDark: #545B77;
+		--background: #E4E9F2;
+		--shadowLight: #545B77;
+	}
+	
+	#container {
+		background: var(--background);
+	}
+	
+	.hero-body {
+		justify-content: center;
+	}
+	
+	.central-content {
+		border-radius: 25px;
+		padding: 1.5rem;
+		box-shadow: 8px 8px 20px var(--shadowDark), -8px -8px 20px var(--shadowLight);
+	}
+	
+	input {
+		background: var(--shadowDark) !important;
+	}
+	
+	a {
+		font-weight: 600;
+	}
+</style>

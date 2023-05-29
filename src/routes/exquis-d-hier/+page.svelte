@@ -1,23 +1,35 @@
 <script>
-    export let poem;
+    /** @type {import('./$types').PageData} */
+    import PoemCard from "/src/components/PoemCard.svelte";
+    export let data;
+
 </script>
 
 
-<div class="card m-5">
-	<a href="/exquis-d-hier/{poem.id}">
-		<div class="p-5">
-			<div class="block">
-		    <h3 class="is-size-3">{poem.title}</h3>
-		    <p class="subtitle">{poem.theme}</p>
-			</div>
-		    <button class="button is-light">
-		        Lire
-		    </button>
-		</div>
+<section class="hero is-fullheight" id="container">
+	
+	<a href = "/" id="home">
+		<button class="button is-dark">
+			<span class="is-size-4">&#8678; &emsp;</span>   Retour
+		</button>
 	</a>
-</div>
+	
+	<div class="hero-body has-text-centered">
+	<div class="grid-container">
+		{#each data.poems as poem}
+			<div class="grid-item">
+	            <PoemCard {poem}/>
+			</div>
+	    {/each}
+	</div>
+	</div>
+</section>
+
 
 <style>
+	.grid-container {
+		columns : 2 auto
+	}
 	
 	
 	* {
@@ -56,6 +68,10 @@
 	a {
 		font-weight: 600;
 	}
-
-
+	
+	#home {
+		position : absolute;
+		top : 1.2em;
+		left : 1.2em;
+	}
 </style>
