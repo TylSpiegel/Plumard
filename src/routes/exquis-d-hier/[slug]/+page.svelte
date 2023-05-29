@@ -20,7 +20,6 @@
 		
 		<Poem {data}/>
 		
-	
 	</div>
 </section>
 

@@ -18,6 +18,7 @@ model DailyPoem {
     targetLength    Int
     verses Verse[]
     publish_date    DateTime @default(dbgenerated("now() + interval '1 day'")) @db.Date
+    to_be_published Boolean @default(true)
 }
 
 model PoemProposition {

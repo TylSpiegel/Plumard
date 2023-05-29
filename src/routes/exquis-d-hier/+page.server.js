@@ -9,7 +9,8 @@ export const load = (async ()  => {
     return {
         poems : await prisma.dailyPoem.findMany( {
             where : {
-                finished: true
+                finished: true,
+                to_be_published : true
             }
         })
     };

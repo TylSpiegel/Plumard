@@ -17,9 +17,9 @@
 		</p>
 	</div>
 	
+	{#if data.verses.length > 0}
 	<div class="box has-text-centered" id="poeme">
 		{#each data.verses as verse}
-			
 			<div>
 				<p class="is-size-4 pb-3">
 					{verse.sentence}
@@ -27,6 +27,8 @@
 			</div>
 		{/each}
 	</div>
+
+	
 	
 	<div>
 		<div class="notification is-dark mt-6">
@@ -35,6 +37,12 @@
 			</p>
 		</div>
 	</div>
+	{:else}
+		<p class="is-subtitle is-size-4">
+			Ce poème est vide.
+		</p>
+	
+	{/if}
 
 </main>
 

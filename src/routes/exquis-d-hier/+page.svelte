@@ -17,7 +17,7 @@
 	<div class="hero-body has-text-centered">
 	<div class="grid-container">
 		{#each data.poems as poem}
-			<div class="grid-item">
+			<div class="grid-item is-vcentered">
 	            <PoemCard {poem}/>
 			</div>
 	    {/each}
@@ -27,10 +27,7 @@
 
 
 <style>
-	.grid-container {
-		columns : 2 auto
-	}
-	
+
 	
 	* {
 		font-family: 'Nunito Sans', sans-serif;
@@ -74,4 +71,14 @@
 		top : 1.2em;
 		left : 1.2em;
 	}
+	
+	.grid-container {
+		display: grid;
+		grid-template-columns: auto auto auto auto;
+	}
+	
+	.grid-item {
+		min-width: 20em;
+	}
+	
 </style>
