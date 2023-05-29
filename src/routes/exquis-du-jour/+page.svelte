@@ -188,6 +188,10 @@
 		background: #F4F5FA ;
 	}
 	
+	input::placeholder, textarea::placeholder {
+		font-size : .7em;
+	}
+	
 	a {
 		font-weight: 600;
 	}
