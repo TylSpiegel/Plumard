@@ -7,12 +7,6 @@ import {getToday} from "/src/lib/utils.js";
 
 export const load = (async ()  => {
 
-    const session = await prisma.session.create({
-        data: {
-            token : Math.random().toString(20),
-        }
-    })
-
     const queue = await prisma.session.findMany({
         where : {
             waiting : true,
@@ -58,7 +52,6 @@ export const load = (async ()  => {
     const amountOfVersesLeft = poem.targetLength - amountOfVerse
 
     return {
-        session : session,
         verse : lastVerse[0],
         queue : queue.slice(0,5),
         poem : poem,

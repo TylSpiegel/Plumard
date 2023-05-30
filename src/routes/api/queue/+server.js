@@ -1,17 +1,28 @@
 import prisma from "/src/lib/prisma";
 import {fail, redirect, json} from "@sveltejs/kit";
 
+export const GET = (async() => {
+    const session = await prisma.session.create({
+        data: {
+            token : Math.random().toString(20),
+        }
+    })
+    return json(session)
+})
+
 export const POST = (async ({ request }) => {
 
     const now = new Date()
     const { token, writing } = await request.json()
+
+    
     // check lastping => if lastping > 25 seconds && waiting : delete
     await prisma.session.deleteMany({
         where : {
             AND : [
                 { waiting : true  },
                 { lastPing : {
-                        lt: new Date(Date.now() - 1000 * 6)
+                        lt: new Date(Date.now() - 1000 * 12)
                     }
                 }
             ]
@@ -22,7 +33,7 @@ export const POST = (async ({ request }) => {
             AND : [
                 { writing : true  },
                 { lastPing : {
-                        lt: new Date(Date.now() - 1000 * 6)
+                        lt: new Date(Date.now() - 1000 * 12)
                     }
                 }
             ]
@@ -58,7 +69,7 @@ export const POST = (async ({ request }) => {
     })
 
     // find if oldest & no one is writing
-    const ready  = queue[0].token === token && isSomeoneWriting.length === 0
+    const ready  = queue ? queue[0].token === token && isSomeoneWriting.length === 0 : false
     if (ready) {
         await prisma.session.update({
             where: {token: token},

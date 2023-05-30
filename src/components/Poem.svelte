@@ -27,8 +27,6 @@
 			</div>
 		{/each}
 	</div>
-
-	
 	
 	<div>
 		<div class="notification is-dark mt-6">

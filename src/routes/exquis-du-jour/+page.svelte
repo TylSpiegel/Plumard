@@ -20,13 +20,19 @@
     let queue ;
 
     onMount(async () => {
-        if (!$userWriting && data.poem) {
+        if (data.poem) {
+	        if (data.session === undefined) {
+		        const res = await fetch('/api/queue',
+				        {
+							method : 'GET',
+					        headers: {
+						        'content-type': 'application/json'
+					        }
+				        })
+		        data.session = await res.json()
+	        }
 			
             interval  = setInterval(async () => {
-				
-				if (!data.session.token) {
-					throw redirect(303, `/exquis-du-jour`)
-				}
 				
                 const response = await fetch('/api/queue', {
                     method: 'POST',
@@ -37,8 +43,8 @@
                 })
 
                 const result = await response.json()
-                queue = result.queue
-                queue = queue
+                queue = await result.queue
+                queue = await queue
 
                 if (result.writing) {
                     data.session.writing = true
@@ -61,7 +67,7 @@
 
 
 <section class="hero is-fullheight" id="container">
-	
+	{JSON.stringify(data.session)}
 	<a href = "/" id="home">
 		<button class="button is-dark">
 			<span class="is-size-4">&#8678; &emsp;</span>   Retour
@@ -83,7 +89,6 @@
 		{#if data.verse}
 				<p class="info">Vers précédent</p>
 				<p class="title">{data.verse.sentence}</p>
-			
 		{/if}
 		
 		{#if !data.verse}
