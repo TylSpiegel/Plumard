@@ -67,7 +67,6 @@
 
 
 <section class="hero is-fullheight" id="container">
-	{JSON.stringify(data.session)}
 	<a href = "/" id="home">
 		<button class="button is-dark">
 			<span class="is-size-4">&#8678; &emsp;</span>   Retour
