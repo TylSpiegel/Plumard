@@ -1,5 +1,5 @@
 import {fail, redirect} from "@sveltejs/kit";
-import prisma from "../../../lib/prisma.js";
+import prisma from "../../lib/prisma.js";
 
 export const actions = {
 	addProposition: async ({ request }) => {

@@ -28,6 +28,18 @@
 						Exquis d'hier
 					</a>
 				</button>
+				
+
+			</div>
+			<div class="buttons is-centered">
+				<p>
+					Un petit descriptif du site ?
+				</p>
+				<a href = "/principe">
+				<button class="button is-dark is-small">
+					Le principe du site
+				</button>
+				</a>
 			</div>
 		</div>
 	</div>

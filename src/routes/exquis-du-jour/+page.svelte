@@ -146,8 +146,8 @@
 				</p>
 			
 			{:else}
-				<p class="is-size-5">Quelqu'un est en train d'écrire. La place devrait se libérer bientôt.</p>
-			
+				<p class="is-size-5">Vérification que personne d'autre n'est en train d'écrire. <br>Si ça ne charge pas après une dizaine de secondes., c'est que c'est occupé, revenez plus tard.</p>
+				
 			{/if}
 
 		</div>
