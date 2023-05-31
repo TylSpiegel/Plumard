@@ -20,7 +20,7 @@ export const load = (async ()  => {
     const poem = await prisma.DailyPoem.findFirst( {
         where : {
             publish_date : {
-                equals : getToday(),
+                lte : getToday(),
             },
             finished : false
         }
