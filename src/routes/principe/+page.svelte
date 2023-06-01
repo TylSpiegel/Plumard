@@ -29,7 +29,7 @@
 				</p>
 				<div class="block">
 					<a href = "/exquis-du-jour">
-					<button class="button is-dark is-medium">exquis du jour</button>
+					<button class="button is-dark is-medium">Exquis du jour</button>
 					</a>
 				</div>
 				<div class="block">
@@ -47,7 +47,7 @@
 				
 				<div class="block">
 					<a href = "/exquis-d-hier">
-					<button class="button is-dark is-medium">exquis du jour</button>
+					<button class="button is-dark is-medium">Exquis d'hier</button>
 					</a>
 				</div>
 
@@ -60,7 +60,7 @@
 					
 						<div class="block">
 							<a href = "/proposition">
-							<button class="button is-dark is-medium">proposition</button>
+							<button class="button is-dark is-medium">Proposition</button>
 							</a>
 						</div>
 					
