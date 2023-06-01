@@ -86,8 +86,10 @@
 	</div>
 		
 		{#if data.verse}
+			<div class="box">
 				<p class="info">Vers précédent</p>
 				<p class="title">{data.verse.sentence}</p>
+			</div>
 		{/if}
 		
 		{#if !data.verse}
